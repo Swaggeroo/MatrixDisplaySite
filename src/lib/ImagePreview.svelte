@@ -7,6 +7,8 @@
 	/** Exposes parent props to this component. */
 	export let reloadIDs: Function;
 
+	let apiURL: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+
 	export let imageId: string;
 	let imageUri = '';
 	let imageName = '';
@@ -26,7 +28,7 @@
 				}
 			}
 		};
-		xhr.open('GET', `http://localhost:3000/api/picture/${imageId}`, true);
+		xhr.open('GET', `${apiURL}/api/picture/${imageId}`, true);
 		xhr.send();
 	}
 
@@ -39,7 +41,7 @@
 				reloadIDs();
 			}
 		};
-		xhr.open('DELETE', `http://localhost:3000/api/picture/${imageId}`, true);
+		xhr.open('DELETE', `${apiURL}/api/picture/${imageId}`, true);
 		xhr.send();
 	}
 

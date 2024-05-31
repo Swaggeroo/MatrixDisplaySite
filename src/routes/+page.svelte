@@ -5,16 +5,16 @@
 	import { applyImage } from '$lib/RestFunctions';
 
 	let imageIds: string[] = [];
+	let apiURL: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
 
 	function loadImageIDs() {
 		const xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
-				const data = JSON.parse(xhr.responseText);
-				imageIds = data;
+				imageIds = JSON.parse(xhr.responseText);
 			}
 		};
-		xhr.open('GET', 'http://localhost:3000/api', true);
+		xhr.open('GET', `${apiURL}/api`, true);
 		xhr.send();
 	}
 
@@ -30,7 +30,7 @@
 				applyImage(xhr.responseText, modalStore);
 			}
 		};
-		xhr.open('GET', 'http://localhost:3000/api/random', true);
+		xhr.open('GET', '${apiURL}/api/random', true);
 		xhr.send();
 	}
 

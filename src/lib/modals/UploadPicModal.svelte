@@ -4,6 +4,8 @@
 	// Stores
 	import { getModalStore, ProgressRadial } from '@skeletonlabs/skeleton';
 
+	let apiURL: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+
 	// Props
 	/** Exposes parent props to this component. */
 	export let parent: SvelteComponent;
@@ -33,7 +35,7 @@
 				}, 1000);
 			}
 		};
-		xhr.open('POST', 'http://localhost:3000/api/upload', true);
+		xhr.open('POST', `${apiURL}/api/upload`, true);
 		xhr.send(formData);
 
 	}

@@ -4,6 +4,8 @@ import { applying } from '$lib/applyImageLockStore';
 
 let currentlyApplying = false;
 
+const apiURL: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+
 applying.subscribe((value) => {
 	currentlyApplying = value;
 });
@@ -40,6 +42,6 @@ export function applyImage(imageId: string, modalStore: ModalStore) {
 			console.log(data);
 		}
 	};
-	xhr.open('POST', `http://localhost:3000/api/apply/${imageId}?brightness=20&speed=100`, true);
+	xhr.open('POST', `${apiURL}/api/apply/${imageId}?brightness=20&speed=100`, true);
 	xhr.send();
 }
