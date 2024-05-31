@@ -21,7 +21,23 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+	import { initializeStores, Modal, type ModalComponent } from '@skeletonlabs/skeleton';
+	initializeStores();
+
+
+	import PostAnimModal from '$lib/modals/PostAnimModal.svelte'
+	import UploadPicModal from '$lib/modals/UploadPicModal.svelte'
+
+	const modalRegistry: Record<string, ModalComponent> = {
+		// Set a unique modal ID, then pass the component reference
+		postAnimModal: { ref: PostAnimModal },
+		uploadPicModal: { ref: UploadPicModal },
+	};
+
 </script>
+
+<Modal components={modalRegistry} />
 
 <!-- App Shell -->
 <AppShell>
@@ -29,33 +45,7 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Skeleton</strong>
-			</svelte:fragment>
-			<svelte:fragment slot="trail">
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Discord
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Twitter
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
-					target="_blank"
-					rel="noreferrer"
-				>
-					GitHub
-				</a>
+				<strong class="text-xl uppercase">Matrix Display Site</strong>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
