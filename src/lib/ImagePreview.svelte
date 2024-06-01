@@ -101,7 +101,7 @@
 				type="button"
 				class="btn variant-filled-success p-2 rounded-lg w-72 h-10"
 				on:click={() => {
-					applyImage(imageId, modalStore);
+					applyImage(imageId, modalStore, toastStore);
 				}}
 			>
 				Apply

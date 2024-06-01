@@ -1,9 +1,12 @@
 import { max, value } from '$lib/modals/PostProgressStore';
-import { type ModalSettings, type ModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+import {
+	type ModalSettings,
+	type ModalStore,
+	type ToastSettings,
+	type ToastStore
+} from '@skeletonlabs/skeleton';
 import { applying } from '$lib/applyImageLockStore';
 import { env } from '$env/dynamic/public';
-
-const toastStore = getToastStore();
 
 let currentlyApplying = false;
 
@@ -18,7 +21,7 @@ const modal: ModalSettings = {
 	component: 'postAnimModal',
 };
 
-export function applyImage(imageId: string, modalStore: ModalStore) {
+export function applyImage(imageId: string, modalStore: ModalStore, toastStore: ToastStore) {
 	if (currentlyApplying) {
 		alert('Already applying an image');
 		return;
@@ -41,7 +44,7 @@ export function applyImage(imageId: string, modalStore: ModalStore) {
 					action: {
 						label: 'Retry',
 						response: () => {
-							applyImage(imageId, modalStore);
+							applyImage(imageId, modalStore, toastStore);
 						}
 					}
 				};

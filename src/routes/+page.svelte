@@ -34,7 +34,7 @@
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
 				console.log(xhr.responseText);
-				applyImage(xhr.responseText, modalStore);
+				applyImage(xhr.responseText, modalStore, toastStore);
 			}
 		};
 		xhr.onerror = function() {
