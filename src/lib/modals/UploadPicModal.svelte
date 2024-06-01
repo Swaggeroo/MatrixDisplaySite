@@ -3,7 +3,7 @@
 	import { env } from '$env/dynamic/public'
 
 	// Stores
-	import { getModalStore, ProgressRadial } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore, ProgressRadial } from '@skeletonlabs/skeleton';
 
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
@@ -11,6 +11,7 @@
 	/** Exposes parent props to this component. */
 	export let parent: SvelteComponent;
 
+	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
 	// Form Data
@@ -35,6 +36,16 @@
 					parent.onClose();
 				}, 1000);
 			}
+		};
+		xhr.onerror = function () {
+			submitting = false;
+			$modalStore[0].meta.reloadIDs();
+			parent.onClose();
+			toastStore.trigger({
+				message: 'Failed to upload picture.',
+				timeout: 5000,
+				hoverable: true
+			});
 		};
 		xhr.open('POST', `${apiURL}/api/upload`, true);
 		xhr.send(formData);

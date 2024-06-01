@@ -36,8 +36,8 @@
 
 </script>
 
-<Modal components={modalRegistry} />
 <Toast />
+<Modal components={modalRegistry} />
 
 <!-- App Shell -->
 <AppShell>

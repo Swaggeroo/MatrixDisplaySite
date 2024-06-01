@@ -18,7 +18,9 @@
 		};
 		xhr.onerror = function() {
 			toastStore.trigger({
-				message: 'Failed to load images.'
+				message: 'Failed to load images.',
+				timeout: 5000,
+				hoverable: true
 			});
 		};
 		xhr.open('GET', `${apiURL}/api`, true);
@@ -33,14 +35,19 @@
 		const xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
-				console.log(xhr.responseText);
-				applyImage(xhr.responseText, modalStore, toastStore);
+				if (xhr.status === 200) {
+					console.log(xhr.responseText);
+					applyImage(xhr.responseText, modalStore, toastStore);
+				}
 			}
 		};
 		xhr.onerror = function() {
 			toastStore.trigger({
-				message: 'Failed to load random image.'
+				message: 'Failed to load random image.',
+				timeout: 5000,
+				hoverable: true
 			});
+			modalStore.clear();
 		};
 		xhr.open('GET', `${apiURL}/api/random`, true);
 		xhr.send();

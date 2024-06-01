@@ -32,7 +32,9 @@
 		};
 		xhr.onerror = function() {
 			toastStore.trigger({
-				message: 'Failed to load image.'
+				message: 'Failed to load image.',
+				timeout: 5000,
+				hoverable: true
 			});
 		};
 		xhr.open('GET', `${apiURL}/api/picture/${imageId}`, true);
@@ -50,7 +52,9 @@
 		};
 		xhr.onerror = function() {
 			toastStore.trigger({
-				message: 'Failed to delete image.'
+				message: 'Failed to delete image.',
+				timeout: 5000,
+				hoverable: true
 			});
 		};
 		xhr.open('DELETE', `${apiURL}/api/picture/${imageId}`, true);
