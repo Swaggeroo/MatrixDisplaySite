@@ -1,10 +1,11 @@
 import { max, value } from '$lib/modals/PostProgressStore';
 import { type ModalSettings, type ModalStore } from '@skeletonlabs/skeleton';
 import { applying } from '$lib/applyImageLockStore';
+import { env } from '$env/dynamic/public';
 
 let currentlyApplying = false;
 
-const apiURL: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+const apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 applying.subscribe((value) => {
 	currentlyApplying = value;

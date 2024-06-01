@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte';
+	import { env } from '$env/dynamic/public'
 
 	// Stores
 	import { getModalStore, ProgressRadial } from '@skeletonlabs/skeleton';
 
-	let apiURL: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	// Props
 	/** Exposes parent props to this component. */

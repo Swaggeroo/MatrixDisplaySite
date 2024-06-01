@@ -2,12 +2,13 @@
 	import { onMount } from 'svelte';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { applyImage } from '$lib/RestFunctions';
+	import { env } from '$env/dynamic/public';
 
 	// Props
 	/** Exposes parent props to this component. */
 	export let reloadIDs: Function;
 
-	let apiURL: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	export let imageId: string;
 	let imageUri = '';

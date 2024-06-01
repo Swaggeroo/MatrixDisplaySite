@@ -3,9 +3,10 @@
 	import { onMount } from 'svelte';
 	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { applyImage } from '$lib/RestFunctions';
+	import { env } from '$env/dynamic/public'
 
 	let imageIds: string[] = [];
-	let apiURL: string = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	function loadImageIDs() {
 		const xhr = new XMLHttpRequest();
