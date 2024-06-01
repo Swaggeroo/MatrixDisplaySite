@@ -42,7 +42,7 @@
 				message: 'Failed to load random image.'
 			});
 		};
-		xhr.open('GET', '${apiURL}/api/random', true);
+		xhr.open('GET', `${apiURL}/api/random`, true);
 		xhr.send();
 	}
 
