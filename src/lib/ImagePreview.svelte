@@ -34,7 +34,8 @@
 			toastStore.trigger({
 				message: 'Failed to load image.',
 				timeout: 5000,
-				hoverable: true
+				hoverable: true,
+				background: 'variant-filled-warning'
 			});
 		};
 		xhr.open('GET', `${apiURL}/api/picture/${imageId}`, true);
@@ -54,7 +55,8 @@
 			toastStore.trigger({
 				message: 'Failed to delete image.',
 				timeout: 5000,
-				hoverable: true
+				hoverable: true,
+				background: 'variant-filled-warning'
 			});
 		};
 		xhr.open('DELETE', `${apiURL}/api/picture/${imageId}`, true);

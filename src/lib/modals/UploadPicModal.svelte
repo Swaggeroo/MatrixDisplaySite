@@ -44,7 +44,8 @@
 			toastStore.trigger({
 				message: 'Failed to upload picture.',
 				timeout: 5000,
-				hoverable: true
+				hoverable: true,
+				background: 'variant-filled-warning'
 			});
 		};
 		xhr.open('POST', `${apiURL}/api/upload`, true);
