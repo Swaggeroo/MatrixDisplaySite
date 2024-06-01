@@ -45,7 +45,7 @@
 				message: 'Failed to upload picture.',
 				timeout: 5000,
 				hoverable: true,
-				background: 'variant-filled-error'
+				background: 'variant-filled-warning'
 			});
 		};
 		xhr.open('POST', `${apiURL}/api/upload`, true);

@@ -21,7 +21,7 @@
 				message: 'Failed to load images.',
 				timeout: 5000,
 				hoverable: true,
-				background: 'variant-filled-error'
+				background: 'variant-filled-warning'
 			});
 		};
 		xhr.open('GET', `${apiURL}/api`, true);
@@ -47,7 +47,7 @@
 				message: 'Failed to load random image.',
 				timeout: 5000,
 				hoverable: true,
-				background: 'variant-filled-error'
+				background: 'variant-filled-warning'
 			});
 			modalStore.clear();
 		};
