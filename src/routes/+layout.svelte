@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.postcss';
-	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, initializeStores, Modal, Toast, type ModalComponent } from '@skeletonlabs/skeleton';
 
 	// Highlight JS
 	import hljs from 'highlight.js/lib/core';
@@ -22,15 +22,14 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-	import { initializeStores, Modal, type ModalComponent } from '@skeletonlabs/skeleton';
+	// Initialize Stores
 	initializeStores();
 
-
+	// Modals
 	import PostAnimModal from '$lib/modals/PostAnimModal.svelte'
 	import UploadPicModal from '$lib/modals/UploadPicModal.svelte'
 
 	const modalRegistry: Record<string, ModalComponent> = {
-		// Set a unique modal ID, then pass the component reference
 		postAnimModal: { ref: PostAnimModal },
 		uploadPicModal: { ref: UploadPicModal },
 	};
@@ -38,6 +37,7 @@
 </script>
 
 <Modal components={modalRegistry} />
+<Toast />
 
 <!-- App Shell -->
 <AppShell>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	import { applyImage } from '$lib/RestFunctions';
 	import { env } from '$env/dynamic/public';
 
@@ -8,6 +8,7 @@
 	/** Exposes parent props to this component. */
 	export let reloadIDs: Function;
 
+	const toastStore = getToastStore();
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	export let imageId: string;
@@ -29,6 +30,11 @@
 				}
 			}
 		};
+		xhr.onerror = function() {
+			toastStore.trigger({
+				message: 'Failed to load image.'
+			});
+		};
 		xhr.open('GET', `${apiURL}/api/picture/${imageId}`, true);
 		xhr.send();
 	}
@@ -41,6 +47,11 @@
 				console.log(xhr.responseText);
 				reloadIDs();
 			}
+		};
+		xhr.onerror = function() {
+			toastStore.trigger({
+				message: 'Failed to delete image.'
+			});
 		};
 		xhr.open('DELETE', `${apiURL}/api/picture/${imageId}`, true);
 		xhr.send();

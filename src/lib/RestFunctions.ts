@@ -1,7 +1,9 @@
 import { max, value } from '$lib/modals/PostProgressStore';
-import { type ModalSettings, type ModalStore } from '@skeletonlabs/skeleton';
+import { type ModalSettings, type ModalStore, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 import { applying } from '$lib/applyImageLockStore';
 import { env } from '$env/dynamic/public';
+
+const toastStore = getToastStore();
 
 let currentlyApplying = false;
 
@@ -29,6 +31,22 @@ export function applyImage(imageId: string, modalStore: ModalStore) {
 		if (xhr.readyState === 3) {
 			const data = xhr.responseText.substring(lastPos);
 			lastPos = xhr.responseText.length;
+			if (data === 'Error sending data to matrix.') {
+				applying.set(false);
+				value.set(0);
+				max.set(1);
+				modalStore.close();
+				const toastSettings: ToastSettings = {
+					message: 'Error sending data to matrix.',
+					action: {
+						label: 'Retry',
+						response: () => {
+							applyImage(imageId, modalStore);
+						}
+					}
+				};
+				toastStore.trigger(toastSettings);
+			}
 			const progressRecived = data.split(' of ');
 			value.set(parseInt(progressRecived[0]));
 			max.set(parseInt(progressRecived[1]));

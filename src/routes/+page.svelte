@@ -1,10 +1,11 @@
 <script lang="ts">
 	import ImagePreview from '$lib/ImagePreview.svelte';
 	import { onMount } from 'svelte';
-	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { applyImage } from '$lib/RestFunctions';
 	import { env } from '$env/dynamic/public'
 
+	const toastStore = getToastStore();
 	let imageIds: string[] = [];
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
@@ -14,6 +15,11 @@
 			if (xhr.readyState === 4) {
 				imageIds = JSON.parse(xhr.responseText);
 			}
+		};
+		xhr.onerror = function() {
+			toastStore.trigger({
+				message: 'Failed to load images.'
+			});
 		};
 		xhr.open('GET', `${apiURL}/api`, true);
 		xhr.send();
@@ -30,6 +36,11 @@
 				console.log(xhr.responseText);
 				applyImage(xhr.responseText, modalStore);
 			}
+		};
+		xhr.onerror = function() {
+			toastStore.trigger({
+				message: 'Failed to load random image.'
+			});
 		};
 		xhr.open('GET', '${apiURL}/api/random', true);
 		xhr.send();
