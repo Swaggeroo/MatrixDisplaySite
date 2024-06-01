@@ -43,7 +43,7 @@ export function applyImage(imageId: string, modalStore: ModalStore, toastStore: 
 					message: 'Error sending data to matrix.',
 					timeout: 5000,
 					hoverable: true,
-					background: 'variant-filled-warning',
+					background: 'variant-filled-error',
 					action: {
 						label: 'Retry',
 						response: () => {

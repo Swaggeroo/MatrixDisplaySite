@@ -35,7 +35,7 @@
 				message: 'Failed to load image.',
 				timeout: 5000,
 				hoverable: true,
-				background: 'variant-filled-warning'
+				background: 'variant-filled-error'
 			});
 		};
 		xhr.open('GET', `${apiURL}/api/picture/${imageId}`, true);
@@ -56,7 +56,7 @@
 				message: 'Failed to delete image.',
 				timeout: 5000,
 				hoverable: true,
-				background: 'variant-filled-warning'
+				background: 'variant-filled-error'
 			});
 		};
 		xhr.open('DELETE', `${apiURL}/api/picture/${imageId}`, true);
