@@ -109,6 +109,10 @@
 
 </script>
 
+<svelte:head>
+	<title>Matrix Display</title>
+</svelte:head>
+
 <Toast />
 <Modal components={modalRegistry} />
 
