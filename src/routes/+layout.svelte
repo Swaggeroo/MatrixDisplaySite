@@ -19,6 +19,7 @@
 	import javascript from 'highlight.js/lib/languages/javascript';
 	import typescript from 'highlight.js/lib/languages/typescript';
 	import { applying } from '$lib/applyImageLockStore';
+	import icon from '$lib/favicon.svg';
 
 	hljs.registerLanguage('xml', xml); // for HTML
 	hljs.registerLanguage('css', css);
@@ -122,6 +123,7 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
+				<img src={icon} alt="Matrix Display Site" class="w-10 h-10 mr-3" />
 				<strong class="text-xl uppercase">Matrix Display Site</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
