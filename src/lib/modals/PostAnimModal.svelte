@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getModalStore,  ProgressRadial } from '@skeletonlabs/skeleton';
 	import { value, max} from '$lib/modals/PostProgressStore';
+	import { onDestroy } from 'svelte';
 
 	let progress = {
 		value: 0,
@@ -23,6 +24,10 @@
 
 	// Base Classes
 	const cBase = 'relative shadow-xl flex flex-col items-center justify-center p-5 rounded-lg';
+
+	onDestroy(() => {
+		modalStore.clear();
+	});
 </script>
 
 <!-- @component This example creates an embedded video modal. -->

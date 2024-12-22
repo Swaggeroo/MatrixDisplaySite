@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ImagePreview from '$lib/ImagePreview.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { applyImage } from '$lib/RestFunctions';
 	import { env } from '$env/dynamic/public'
@@ -9,40 +9,29 @@
 	let imageIds: string[] = [];
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
-	function loadImageIDs() {
-		const xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === 4) {
-				imageIds = JSON.parse(xhr.responseText);
-			}
-		};
-		xhr.onerror = function() {
+	async function loadImageIDs() {
+		try {
+			const response = await fetch(`${apiURL}/api`);
+			imageIds = await response.json();
+		} catch {
 			toastStore.trigger({
 				message: 'Failed to load images.',
 				timeout: 5000,
 				hoverable: true,
 				background: 'variant-filled-warning'
 			});
-		};
-		xhr.open('GET', `${apiURL}/api`, true);
-		xhr.send();
+		}
 	}
 
 	function handleFabUploadClick() {
 		modalStore.trigger(uploadModal);
 	}
 
-	function handleFabRandomClick() {
-		const xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					console.log(xhr.responseText);
-					applyImage(xhr.responseText, modalStore, toastStore);
-				}
-			}
-		};
-		xhr.onerror = function() {
+	async function handleFabRandomClick() {
+		try {
+			const response = await fetch(`${apiURL}/api/random`);
+			applyImage(await response.text(), modalStore, toastStore);
+		} catch {
 			toastStore.trigger({
 				message: 'Failed to load random image.',
 				timeout: 5000,
@@ -50,9 +39,7 @@
 				background: 'variant-filled-warning'
 			});
 			modalStore.clear();
-		};
-		xhr.open('GET', `${apiURL}/api/random`, true);
-		xhr.send();
+		}
 	}
 
 	const modalStore = getModalStore();
@@ -63,6 +50,11 @@
 			reloadIDs: loadImageIDs
 		}
 	};
+
+	onDestroy(() => {
+		modalStore.clear();
+		toastStore.clear();
+	});
 
 	onMount(() => {
 		loadImageIDs();

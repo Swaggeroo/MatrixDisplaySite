@@ -20,6 +20,7 @@
 	import typescript from 'highlight.js/lib/languages/typescript';
 	import { applying } from '$lib/applyImageLockStore';
 	import icon from '$lib/favicon.svg';
+	import { onDestroy } from 'svelte';
 
 	hljs.registerLanguage('xml', xml); // for HTML
 	hljs.registerLanguage('css', css);
@@ -69,7 +70,7 @@
 			});
 	}
 
-	setInterval(getStatus, 30000);
+	const intervalId = setInterval(getStatus, 30000);
 	getStatus();
 	let status = {
 		speed: 500,
@@ -87,27 +88,25 @@
 		});
 	}
 
-	function handlePowerClick() {
-		const xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === 4) {
-				console.log(xhr.responseText);
-				getStatus();
-			}
-		};
-		xhr.onerror = function () {
-			console.error('Failed to toggle power.', xhr.responseText);
+	async function handlePowerClick() {
+		try {
+			await fetch(`${apiURL}/api/off`);
+		} catch {
+			console.error('Failed to toggle power.');
 			toastStore.trigger({
 				message: 'Failed to toggle power.',
 				timeout: 5000,
 				hoverable: true,
 				background: 'variant-filled-warning'
 			});
-		};
-		xhr.open('POST', `${apiURL}/api/off`, true);
-		xhr.send();
+		}
 	}
 
+	onDestroy(() => {
+		clearInterval(intervalId);
+		modalStore.clear();
+		toastStore.clear();
+	});
 </script>
 
 <svelte:head>
