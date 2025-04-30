@@ -1,4 +1,4 @@
-FROM node:latest AS build
+FROM node:23.11.0 AS build
 LABEL authors="swaggeroo"
 
 WORKDIR /usr/src/app
@@ -11,7 +11,7 @@ COPY . .
 RUN npm run build
 
 
-FROM node:latest
+FROM node:23.11.0
 WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/package*.json ./
 COPY --from=build /usr/src/app/build ./build
