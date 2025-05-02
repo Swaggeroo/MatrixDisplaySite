@@ -10,6 +10,7 @@ on:
     workflows: [ "Bump Version Renovate" ]
     types:
       - completed
+  workflow_dispatch:
 
 jobs:
   create-release:
