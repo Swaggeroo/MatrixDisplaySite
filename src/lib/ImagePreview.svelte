@@ -5,16 +5,21 @@
 	import { env } from '$env/dynamic/public';
 
 	// Props
-	/** Exposes parent props to this component. */
-	export let reloadIDs: Function;
+	
 
 	const toastStore = getToastStore();
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
-	export let imageId: string;
-	let imageUri = '';
-	let imageName = '';
-	let isLoaded = false;
+	interface Props {
+		/** Exposes parent props to this component. */
+		reloadIDs: Function;
+		imageId: string;
+	}
+
+	let { reloadIDs, imageId }: Props = $props();
+	let imageUri = $state('');
+	let imageName = $state('');
+	let isLoaded = $state(false);
 
 	function loadImage() {
 		const xhr = new XMLHttpRequest();
@@ -87,7 +92,7 @@
 			<button
 				type="button"
 				class="btn-icon variant-filled-error w-10 h-10"
-				on:click={() => {
+				onclick={() => {
 					if (confirm('Are you sure you want to delete '+imageName+'?')){
 						deleteImage();
 					}
@@ -106,7 +111,7 @@
 			<button
 				type="button"
 				class="btn variant-filled-success p-2 rounded-lg w-72 h-10"
-				on:click={() => {
+				onclick={() => {
 					applyImage(imageId, modalStore, toastStore);
 				}}
 			>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import type { SvelteComponent } from 'svelte';
 	import { env } from '$env/dynamic/public'
 
@@ -8,18 +10,23 @@
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	// Props
-	/** Exposes parent props to this component. */
-	export let parent: SvelteComponent;
+	
+	interface Props {
+		/** Exposes parent props to this component. */
+		parent: SvelteComponent;
+	}
+
+	let { parent }: Props = $props();
 
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
 	// Form Data
-	const formData = {
+	const formData = $state({
 		title: Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000,
-	};
+	});
 
-	let submitting = false;
+	let submitting = $state(false);
 
 	// We've created a custom submit function to pass the response and close the modal.
 	function onFormSubmit() {
@@ -68,7 +75,7 @@
 			<p>Upload a picture to the server.</p>
 		</article>
 		<!-- Enable for debugging: -->
-		<form class="modal-form {cForm}" id="uploadPicForm" on:submit|preventDefault={onFormSubmit}>
+		<form class="modal-form {cForm}" id="uploadPicForm" onsubmit={preventDefault(onFormSubmit)}>
 			<label class="label">
 				<span>Title</span>
 				<input class="input" type="text" bind:value={formData.title} placeholder="Enter name..." name="title" />
@@ -80,11 +87,11 @@
 		</form>
 		<!-- prettier-ignore -->
 		<footer class="modal-footer {parent.regionFooter}">
-			<button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>{parent.buttonTextCancel}</button>
+			<button class="btn {parent.buttonNeutral}" onclick={parent.onClose}>{parent.buttonTextCancel}</button>
 			{#if submitting}
 				<button class="btn {parent.buttonPositive}" disabled><ProgressRadial value={undefined} class="w-5 h-5" /></button>
 			{:else}
-				<button class="btn {parent.buttonPositive}" on:click={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
+				<button class="btn {parent.buttonPositive}" onclick={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
 			{/if}
 		</footer>
 	</div>

@@ -7,17 +7,22 @@
 	import { env } from '$env/dynamic/public';
 
 	// Props
-	/** Exposes parent props to this component. */
-	export let parent: SvelteComponent;
+	
+	interface Props {
+		/** Exposes parent props to this component. */
+		parent: SvelteComponent;
+	}
+
+	let { parent }: Props = $props();
 
 	const modalStore = getModalStore();
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	// Form Data
-	let settingsData = {
+	let settingsData = $state({
 		speed: 500,
 		brightness: 20
-	};
+	});
 
 	const receivedData = $modalStore[0].meta.settingsData;
 	if (receivedData) {
@@ -97,8 +102,8 @@
 			</label>
 		</form>
 		<footer class="modal-footer {parent.regionFooter}">
-			<button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>{parent.buttonTextCancel}</button>
-			<button class="btn {parent.buttonPositive}" on:click={onFormSubmit}>Save</button>
+			<button class="btn {parent.buttonNeutral}" onclick={parent.onClose}>{parent.buttonTextCancel}</button>
+			<button class="btn {parent.buttonPositive}" onclick={onFormSubmit}>Save</button>
 		</footer>
 	</div>
 {/if}

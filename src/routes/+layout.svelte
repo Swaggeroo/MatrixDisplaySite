@@ -50,6 +50,11 @@
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 	import { env } from '$env/dynamic/public';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	function getStatus() {
@@ -118,19 +123,25 @@
 
 <!-- App Shell -->
 <AppShell>
-	<svelte:fragment slot="header">
-		<!-- App Bar -->
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<img src={icon} alt="Matrix Display Site" class="w-10 h-10 mr-3" />
-				<strong class="text-xl uppercase">Matrix Display Site</strong>
-			</svelte:fragment>
-			<svelte:fragment slot="trail">
-				<button class="btn-icon variant-filled-surface w-10 h-10 text-3xl" on:click={handleSettingsClick}>⚙</button>
-				<button class="btn-icon variant-filled-surface w-10 h-10 text-xl" on:click={handlePowerClick}>🌙</button>
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
+	{#snippet header()}
+	
+			<!-- App Bar -->
+			<AppBar>
+				{#snippet lead()}
+					
+						<img src={icon} alt="Matrix Display Site" class="w-10 h-10 mr-3" />
+						<strong class="text-xl uppercase">Matrix Display Site</strong>
+					
+					{/snippet}
+				{#snippet trail()}
+					
+						<button class="btn-icon variant-filled-surface w-10 h-10 text-3xl" onclick={handleSettingsClick}>⚙</button>
+						<button class="btn-icon variant-filled-surface w-10 h-10 text-xl" onclick={handlePowerClick}>🌙</button>
+					
+					{/snippet}
+			</AppBar>
+		
+	{/snippet}
 	<!-- Page Route Content -->
-	<slot />
+	{@render children?.()}
 </AppShell>

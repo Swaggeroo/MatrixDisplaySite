@@ -3,10 +3,10 @@
 	import { value, max} from '$lib/modals/PostProgressStore';
 	import { onDestroy } from 'svelte';
 
-	let progress = {
+	let progress = $state({
 		value: 0,
 		max: 0
-	};
+	});
 
 	value.subscribe((val) => {
 		progress.value = val;
@@ -16,7 +16,7 @@
 		progress.max = val;
 	});
 
-	$: percentage = Math.round(progress.value / progress.max * 100);
+	let percentage = $derived(Math.round(progress.value / progress.max * 100));
 
 	const modalStore = getModalStore();
 

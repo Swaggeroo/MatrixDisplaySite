@@ -6,7 +6,7 @@
 	import { env } from '$env/dynamic/public'
 
 	const toastStore = getToastStore();
-	let imageIds: string[] = [];
+	let imageIds: string[] = $state([]);
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	async function loadImageIDs() {
@@ -81,5 +81,5 @@
 	{/each}
 </section>
 
-<button class="fabRight btn-icon variant-filled-primary w-16 h-16 text-5xl" on:click={handleFabUploadClick}>+</button>
-<button class="fabLeft btn-icon variant-filled-secondary w-16 h-16 text-3xl" on:click={handleFabRandomClick}>🍀</button>
+<button class="fabRight btn-icon variant-filled-primary w-16 h-16 text-5xl" onclick={handleFabUploadClick}>+</button>
+<button class="fabLeft btn-icon variant-filled-secondary w-16 h-16 text-3xl" onclick={handleFabRandomClick}>🍀</button>
