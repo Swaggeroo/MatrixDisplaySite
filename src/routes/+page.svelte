@@ -1,11 +1,11 @@
 <script lang="ts">
 	import ImagePreview from '$lib/ImagePreview.svelte';
 	import { onMount, onDestroy } from 'svelte';
-	import { getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { toaster } from '$lib/toaster-svelte';
 	import { applyImage } from '$lib/RestFunctions';
 	import { env } from '$env/dynamic/public'
+	import { UploadPicModal } from '$lib/modals/ModalController';
 
-	const toastStore = getToastStore();
 	let imageIds: string[] = $state([]);
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
@@ -14,47 +14,35 @@
 			const response = await fetch(`${apiURL}/api`);
 			imageIds = await response.json();
 		} catch {
-			toastStore.trigger({
-				message: 'Failed to load images.',
-				timeout: 5000,
-				hoverable: true,
-				background: 'variant-filled-warning'
+			toaster.create({
+				title: 'Failed to load images.',
+				type: 'error',
+				duration: 5000,
 			});
 		}
 	}
 
 	function handleFabUploadClick() {
-		modalStore.trigger(uploadModal);
+		UploadPicModal.subscribe(controller => {
+			if (controller) controller.modalOpen(loadImageIDs);
+		})();
 	}
 
 	async function handleFabRandomClick() {
 		try {
 			const response = await fetch(`${apiURL}/api/random`);
-			applyImage(await response.text(), modalStore, toastStore);
+			applyImage(await response.text());
 		} catch {
-			toastStore.trigger({
-				message: 'Failed to load random image.',
-				timeout: 5000,
-				hoverable: true,
-				background: 'variant-filled-warning'
+			toaster.create({
+				title: 'Failed to load random image.',
+				type: 'error',
+				duration: 5000,
 			});
-			modalStore.clear();
+			UploadPicModal.subscribe(controller => {
+				if (controller) controller.modalClose();
+			})();
 		}
 	}
-
-	const modalStore = getModalStore();
-	const uploadModal: ModalSettings = {
-		type: 'component',
-		component: 'uploadPicModal',
-		meta: {
-			reloadIDs: loadImageIDs
-		}
-	};
-
-	onDestroy(() => {
-		modalStore.clear();
-		toastStore.clear();
-	});
 
 	onMount(() => {
 		loadImageIDs();

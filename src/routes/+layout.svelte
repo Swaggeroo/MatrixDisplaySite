@@ -1,54 +1,23 @@
 <script lang="ts">
-	import '../app.postcss';
+	import '../app.css';
 	import {
-		AppShell,
 		AppBar,
-		initializeStores,
-		Modal,
-		Toast,
-		type ModalComponent,
-		getModalStore, getToastStore
-	} from '@skeletonlabs/skeleton';
+		Toaster,
+	} from '@skeletonlabs/skeleton-svelte';
+	import { toaster } from '$lib/toaster-svelte';
+	import { SettingsModal as SettingsModalController } from '$lib/modals/ModalController';
 
 	// Highlight JS
-	import hljs from 'highlight.js/lib/core';
 	import 'highlight.js/styles/github-dark.css';
-	import { storeHighlightJs } from '@skeletonlabs/skeleton';
-	import xml from 'highlight.js/lib/languages/xml'; // for HTML
-	import css from 'highlight.js/lib/languages/css';
-	import javascript from 'highlight.js/lib/languages/javascript';
-	import typescript from 'highlight.js/lib/languages/typescript';
 	import { applying } from '$lib/applyImageLockStore';
 	import icon from '$lib/favicon.svg';
 	import { onDestroy } from 'svelte';
-
-	hljs.registerLanguage('xml', xml); // for HTML
-	hljs.registerLanguage('css', css);
-	hljs.registerLanguage('javascript', javascript);
-	hljs.registerLanguage('typescript', typescript);
-	storeHighlightJs.set(hljs);
-
-	// Floating UI for Popups
-	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
-	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-
-	// Initialize Stores
-	initializeStores();
 
 	// Modals
 	import PostAnimModal from '$lib/modals/PostAnimModal.svelte'
 	import UploadPicModal from '$lib/modals/UploadPicModal.svelte'
 	import SettingsModal from '$lib/modals/SettingsModal.svelte';
 
-	const modalRegistry: Record<string, ModalComponent> = {
-		postAnimModal: { ref: PostAnimModal },
-		uploadPicModal: { ref: UploadPicModal },
-		settingsModal: { ref: SettingsModal }
-	};
-
-	const toastStore = getToastStore();
-	const modalStore = getModalStore();
 	import { env } from '$env/dynamic/public';
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -66,11 +35,10 @@
 				applying.set(data.applyingImage);
 			})
 			.catch(() => {
-				toastStore.trigger({
-					message: 'Failed to get status.',
-					timeout: 1000,
-					hoverable: true,
-					background: 'variant-filled-warning'
+				toaster.create({
+					title: 'Failed to get status.',
+					type: 'error',
+					duration: 5000,
 				});
 			});
 	}
@@ -83,14 +51,9 @@
 	}
 
 	function handleSettingsClick() {
-		modalStore.trigger({
-			type: 'component',
-			component: 'settingsModal',
-			meta: {
-				settingsData: status,
-				refreshStatus: getStatus
-			}
-		});
+		SettingsModalController.subscribe(controller => {
+			if (controller) controller.modalOpen(status, getStatus);
+		})();
 	}
 
 	async function handlePowerClick() {
@@ -98,19 +61,16 @@
 			await fetch(`${apiURL}/api/off`);
 		} catch {
 			console.error('Failed to toggle power.');
-			toastStore.trigger({
-				message: 'Failed to toggle power.',
-				timeout: 5000,
-				hoverable: true,
-				background: 'variant-filled-warning'
+			toaster.create({
+				title: 'Failed to toggle power.',
+				type: 'error',
+				duration: 5000,
 			});
 		}
 	}
 
 	onDestroy(() => {
 		clearInterval(intervalId);
-		modalStore.clear();
-		toastStore.clear();
 	});
 </script>
 
@@ -118,13 +78,14 @@
 	<title>Matrix Display</title>
 </svelte:head>
 
-<Toast />
-<Modal components={modalRegistry} />
+<Toaster {toaster}></Toaster>
+<PostAnimModal />
+<UploadPicModal />
+<SettingsModal />
 
 <!-- App Shell -->
-<AppShell>
-	{#snippet header()}
-	
+<div class="grid h-screen grid-rows-[auto_1fr_auto]">
+	<header class="sticky top-0 z-10 backdrop-blur-sm p-4">
 			<!-- App Bar -->
 			<AppBar>
 				{#snippet lead()}
@@ -140,8 +101,9 @@
 					
 					{/snippet}
 			</AppBar>
-		
-	{/snippet}
+	</header>
 	<!-- Page Route Content -->
-	{@render children?.()}
-</AppShell>
+	<main>
+		{@render children?.()}
+	</main>
+</div>

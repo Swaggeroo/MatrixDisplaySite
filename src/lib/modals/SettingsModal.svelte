@@ -1,21 +1,35 @@
 <script lang="ts">
-	import type { SvelteComponent } from 'svelte';
+	import { onDestroy, onMount, type SvelteComponent } from 'svelte';
 
 	// Stores
-	import { getModalStore, RangeSlider } from '@skeletonlabs/skeleton';
+	import { Modal, Slider } from '@skeletonlabs/skeleton-svelte';
 
 	import { env } from '$env/dynamic/public';
+	import { SettingsModal } from '$lib/modals/ModalController';
 
-	// Props
-	
-	interface Props {
-		/** Exposes parent props to this component. */
-		parent: SvelteComponent;
+	let openState = $state(false);
+
+	function modalClose() {
+		openState = false;
 	}
 
-	let { parent }: Props = $props();
+	function modalOpen(receivedData: { speed: number, brightness: number }, statusFunction: () => void) {
+		openState = true;
+		settingsData.speed = receivedData.speed;
+		settingsData.brightness = receivedData.brightness
+		refreshStatus = statusFunction;
+	}
 
-	const modalStore = getModalStore();
+	let refreshStatus: () => void;
+
+	onMount(() => {
+		SettingsModal.set({ modalOpen, modalClose });
+	});
+
+	onDestroy(() => {
+		SettingsModal.set(null);
+	});
+
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	// Form Data
@@ -23,12 +37,6 @@
 		speed: 500,
 		brightness: 20
 	});
-
-	const receivedData = $modalStore[0].meta.settingsData;
-	if (receivedData) {
-		settingsData.speed = receivedData.speed;
-		settingsData.brightness = receivedData.brightness;
-	}
 
 	const minSpeed = 0;
 	const maxSpeed = 2000;
@@ -70,7 +78,7 @@
 
 
 		setTimeout(() => {
-			$modalStore[0].meta.refreshStatus();
+			refreshStatus();
 			parent.onClose();
 		}, 1000);
 	}
@@ -81,10 +89,12 @@
 	const cForm = 'border border-surface-500 p-4 space-y-4 rounded-container-token';
 </script>
 
-<!-- @component This example creates a simple form modal. -->
-
-{#if $modalStore[0]}
-	<div class="modal-example-form {cBase}">
+<Modal
+	open={openState}
+	onOpenChange={(e) => (openState = e.open)}
+	contentBase="modal-example-form {cBase}"
+>
+	{#snippet content()}
 		<header class={cHeader}>Settings</header>
 		<article>
 			<p>Change the speed and brightness of the Matrix.</p>
@@ -93,17 +103,17 @@
 			<label class="label">
 				<span>Speed</span>
 				<input class="input" type="number" bind:value={settingsData.speed} placeholder="Enter name..." />
-				<RangeSlider name="range-slider" bind:value={settingsData.speed} max={maxSpeed} step={speedStep} min={minSpeed}></RangeSlider>
+				<Slider name="range-slider" value={[settingsData.speed]} onValueChange={(e) => settingsData.speed = e.value[0]} max={maxSpeed} step={speedStep} min={minSpeed}></Slider>
 			</label>
 			<label class="label">
 				<span>Brightness</span>
 				<input class="input" type="number" bind:value={settingsData.brightness} placeholder="Enter name..." />
-				<RangeSlider name="range-slider" bind:value={settingsData.brightness} max={maxBrightness} step={brightnessStep} min={minBrightness}></RangeSlider>
+				<Slider name="range-slider" value={[settingsData.speed]} onValueChange={(e) => settingsData.brightness= e.value[0]} max={maxBrightness} step={brightnessStep} min={minBrightness}></Slider>
 			</label>
 		</form>
-		<footer class="modal-footer {parent.regionFooter}">
-			<button class="btn {parent.buttonNeutral}" onclick={parent.onClose}>{parent.buttonTextCancel}</button>
-			<button class="btn {parent.buttonPositive}" onclick={onFormSubmit}>Save</button>
+		<footer class="modal-footer">
+			<button class="btn" onclick={modalClose}>Cancel</button>
+			<button class="btn" onclick={onFormSubmit}>Save</button>
 		</footer>
-	</div>
-{/if}
+	{/snippet}
+</Modal>

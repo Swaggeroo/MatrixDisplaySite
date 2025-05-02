@@ -1,12 +1,8 @@
 import { max, value } from '$lib/modals/PostProgressStore';
-import {
-	type ModalSettings,
-	type ModalStore,
-	type ToastSettings,
-	type ToastStore
-} from '@skeletonlabs/skeleton';
+import { toaster } from '$lib/toaster-svelte';
 import { applying } from '$lib/applyImageLockStore';
 import { env } from '$env/dynamic/public';
+import { PostAnimModal } from '$lib/modals/ModalController';
 
 let currentlyApplying = false;
 
@@ -16,18 +12,15 @@ applying.subscribe((value) => {
 	currentlyApplying = value;
 });
 
-const modal: ModalSettings = {
-	type: 'component',
-	component: 'postAnimModal',
-};
-
-export function applyImage(imageId: string, modalStore: ModalStore, toastStore: ToastStore) {
+export function applyImage(imageId: string) {
 	if (currentlyApplying) {
 		alert('Already applying an image');
 		return;
 	}
 	applying.set(true);
-	modalStore.trigger(modal);
+	PostAnimModal.subscribe(controller => {
+		if (controller) controller.modalOpen();
+	})();
 	const xhr = new XMLHttpRequest();
 	let lastPos = 0;
 	xhr.onreadystatechange = function() {
@@ -38,20 +31,14 @@ export function applyImage(imageId: string, modalStore: ModalStore, toastStore: 
 				applying.set(false);
 				value.set(0);
 				max.set(1);
-				modalStore.close();
-				const toastSettings: ToastSettings = {
-					message: 'Error sending data to matrix.',
-					timeout: 5000,
-					hoverable: true,
-					background: 'variant-filled-warning',
-					action: {
-						label: 'Retry',
-						response: () => {
-							applyImage(imageId, modalStore, toastStore);
-						}
-					}
-				};
-				toastStore.trigger(toastSettings);
+				PostAnimModal.subscribe(controller => {
+					if (controller) controller.modalClose();
+				})();
+				toaster.create({
+					type: 'error',
+					title: 'Error sending data to matrix.',
+					duration: 5000,
+				});
 			}
 			const progressRecived = data.split(' of ');
 			value.set(parseInt(progressRecived[0]));
@@ -61,7 +48,9 @@ export function applyImage(imageId: string, modalStore: ModalStore, toastStore: 
 				applying.set(false);
 				value.set(0);
 				max.set(1);
-				modalStore.close();
+				PostAnimModal.subscribe(controller => {
+					if (controller) controller.modalClose();
+				})();
 			}
 
 			console.log(data);

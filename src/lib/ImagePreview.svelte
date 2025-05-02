@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
+	import { toaster } from '$lib/toaster-svelte';
 	import { applyImage } from '$lib/RestFunctions';
 	import { env } from '$env/dynamic/public';
 
 	// Props
-	
 
-	const toastStore = getToastStore();
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	interface Props {
@@ -36,11 +34,10 @@
 			}
 		};
 		xhr.onerror = function() {
-			toastStore.trigger({
-				message: 'Failed to load image.',
-				timeout: 5000,
-				hoverable: true,
-				background: 'variant-filled-warning'
+			toaster.create({
+				title: 'Failed to load image.',
+				type: 'error',
+				duration: 5000,
 			});
 		};
 		xhr.open('GET', `${apiURL}/api/picture/${imageId}`, true);
@@ -57,18 +54,15 @@
 			}
 		};
 		xhr.onerror = function() {
-			toastStore.trigger({
-				message: 'Failed to delete image.',
-				timeout: 5000,
-				hoverable: true,
-				background: 'variant-filled-warning'
+			toaster.create({
+				title: 'Failed to delete image.',
+				type: 'error',
+				duration: 5000,
 			});
 		};
 		xhr.open('DELETE', `${apiURL}/api/picture/${imageId}`, true);
 		xhr.send();
 	}
-
-	const modalStore = getModalStore();
 
 	onMount(() => {
 		loadImage();
@@ -112,7 +106,7 @@
 				type="button"
 				class="btn variant-filled-success p-2 rounded-lg w-72 h-10"
 				onclick={() => {
-					applyImage(imageId, modalStore, toastStore);
+					applyImage(imageId);
 				}}
 			>
 				Apply

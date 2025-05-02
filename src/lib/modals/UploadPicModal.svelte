@@ -1,25 +1,34 @@
 <script lang="ts">
 	import { preventDefault } from 'svelte/legacy';
 
-	import type { SvelteComponent } from 'svelte';
+	import { onDestroy, onMount, type SvelteComponent } from 'svelte';
 	import { env } from '$env/dynamic/public'
 
 	// Stores
-	import { getModalStore, getToastStore, ProgressRadial } from '@skeletonlabs/skeleton';
+	import { ProgressRing, Modal } from '@skeletonlabs/skeleton-svelte';
+	import { toaster } from '$lib/toaster-svelte';
+	import { UploadPicModal } from '$lib/modals/ModalController';
 
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
-	// Props
-	
-	interface Props {
-		/** Exposes parent props to this component. */
-		parent: SvelteComponent;
+	let openState = $state(false);
+
+	function modalClose() {
+		openState = false;
 	}
 
-	let { parent }: Props = $props();
+	function modalOpen(reloadIDsFunction: () => void) {
+		openState = true;
+		reloadIDs = reloadIDsFunction;
+	}
 
-	const toastStore = getToastStore();
-	const modalStore = getModalStore();
+	onMount(() => {
+		UploadPicModal.set({ modalOpen, modalClose });
+	});
+
+	onDestroy(() => {
+		UploadPicModal.set(null);
+	});
 
 	// Form Data
 	const formData = $state({
@@ -27,6 +36,8 @@
 	});
 
 	let submitting = $state(false);
+
+	let reloadIDs: () => void;
 
 	// We've created a custom submit function to pass the response and close the modal.
 	function onFormSubmit() {
@@ -39,20 +50,19 @@
 			if (xhr.readyState === 4) {
 				console.log(xhr.responseText);
 				setTimeout(() => {
-					$modalStore[0].meta.reloadIDs();
-					parent.onClose();
+					reloadIDs();
+					modalClose();
 				}, 1000);
 			}
 		};
 		xhr.onerror = function () {
 			submitting = false;
-			$modalStore[0].meta.reloadIDs();
-			parent.onClose();
-			toastStore.trigger({
-				message: 'Failed to upload picture.',
-				timeout: 5000,
-				hoverable: true,
-				background: 'variant-filled-warning'
+			reloadIDs();
+			modalClose();
+			toaster.create({
+				title: 'Failed to upload picture.',
+				type: 'error',
+				duration: 5000,
 			});
 		};
 		xhr.open('POST', `${apiURL}/api/upload`, true);
@@ -68,8 +78,12 @@
 
 <!-- @component This example creates a simple form modal. -->
 
-{#if $modalStore[0]}
-	<div class="modal-example-form {cBase}">
+<Modal
+	open={openState}
+	onOpenChange={(e) => (openState = e.open)}
+	contentBase="modal-example-form {cBase}"
+>
+	{#snippet content()}
 		<header class={cHeader}>Upload Picture</header>
 		<article>
 			<p>Upload a picture to the server.</p>
@@ -86,13 +100,13 @@
 			</label>
 		</form>
 		<!-- prettier-ignore -->
-		<footer class="modal-footer {parent.regionFooter}">
-			<button class="btn {parent.buttonNeutral}" onclick={parent.onClose}>{parent.buttonTextCancel}</button>
+		<footer class="modal-footer">
+			<button class="btn" onclick={modalClose}>Cancel</button>
 			{#if submitting}
-				<button class="btn {parent.buttonPositive}" disabled><ProgressRadial value={undefined} class="w-5 h-5" /></button>
+				<button class="btn" disabled><ProgressRing value={null} size="w-5 h-5" /></button>
 			{:else}
-				<button class="btn {parent.buttonPositive}" onclick={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
+				<button class="btn" onclick={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
 			{/if}
 		</footer>
-	</div>
-{/if}
+	{/snippet}
+</Modal>
