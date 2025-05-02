@@ -17,6 +17,9 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    if: >
+      github.event_name != 'workflow_dispatch' &&
+      (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -47,6 +50,9 @@ jobs:
 
   docker:
     runs-on: ubuntu-latest
+    if: >
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
     permissions:
       contents: read
       packages: write
