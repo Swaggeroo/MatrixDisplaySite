@@ -19,11 +19,8 @@
 	import SettingsModal from '$lib/modals/SettingsModal.svelte';
 
 	import { env } from '$env/dynamic/public';
-	interface Props {
-		children?: import('svelte').Snippet;
-	}
 
-	let { children }: Props = $props();
+	let { children } = $props();
 	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	function getStatus() {
@@ -96,14 +93,14 @@
 					{/snippet}
 				{#snippet trail()}
 					
-						<button class="btn-icon variant-filled-surface w-10 h-10 text-3xl" onclick={handleSettingsClick}>⚙</button>
-						<button class="btn-icon variant-filled-surface w-10 h-10 text-xl" onclick={handlePowerClick}>🌙</button>
+						<button class="btn-icon preset-filled-surface-500 w-10 h-10 text-3xl" onclick={handleSettingsClick}>⚙</button>
+						<button class="btn-icon preset-filled-surface-500 w-10 h-10 text-xl" onclick={handlePowerClick}>🌙</button>
 					
 					{/snippet}
 			</AppBar>
 	</header>
 	<!-- Page Route Content -->
 	<main>
-		{@render children?.()}
+		{@render children()}
 	</main>
 </div>

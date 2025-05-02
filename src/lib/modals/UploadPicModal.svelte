@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { preventDefault } from 'svelte/legacy';
 
-	import { onDestroy, onMount, type SvelteComponent } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { env } from '$env/dynamic/public'
 
 	// Stores
@@ -73,7 +73,7 @@
 	// Base Classes
 	const cBase = 'card p-4 w-modal shadow-xl space-y-4';
 	const cHeader = 'text-2xl font-bold';
-	const cForm = 'border border-surface-500 p-4 space-y-4 rounded-container-token';
+	const cForm = 'border border-surface-500 p-4 space-y-4 rounded-container';
 </script>
 
 <!-- @component This example creates a simple form modal. -->

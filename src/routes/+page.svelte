@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ImagePreview from '$lib/ImagePreview.svelte';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import { toaster } from '$lib/toaster-svelte';
 	import { applyImage } from '$lib/RestFunctions';
 	import { env } from '$env/dynamic/public'
@@ -69,5 +69,5 @@
 	{/each}
 </section>
 
-<button class="fabRight btn-icon variant-filled-primary w-16 h-16 text-5xl" onclick={handleFabUploadClick}>+</button>
-<button class="fabLeft btn-icon variant-filled-secondary w-16 h-16 text-3xl" onclick={handleFabRandomClick}>🍀</button>
+<button class="fabRight btn-icon preset-filled-primary-500 w-16 h-16 text-5xl" onclick={handleFabUploadClick}>+</button>
+<button class="fabLeft btn-icon preset-filled-secondary-500 w-16 h-16 text-3xl" onclick={handleFabRandomClick}>🍀</button>

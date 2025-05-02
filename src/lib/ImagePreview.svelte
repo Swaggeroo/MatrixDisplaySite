@@ -85,7 +85,7 @@
 			</h2>
 			<button
 				type="button"
-				class="btn-icon variant-filled-error w-10 h-10"
+				class="btn-icon preset-filled-error-500 w-10 h-10"
 				onclick={() => {
 					if (confirm('Are you sure you want to delete '+imageName+'?')){
 						deleteImage();
@@ -104,7 +104,7 @@
 		<footer class="card-footer">
 			<button
 				type="button"
-				class="btn variant-filled-success p-2 rounded-lg w-72 h-10"
+				class="btn preset-filled-success-500 p-2 rounded-lg w-72 h-10"
 				onclick={() => {
 					applyImage(imageId);
 				}}
