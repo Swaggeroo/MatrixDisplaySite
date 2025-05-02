@@ -7,16 +7,9 @@
 	import { toaster } from '$lib/toaster-svelte';
 	import { SettingsModal as SettingsModalController } from '$lib/modals/ModalController';
 
-	// Highlight JS
-	import 'highlight.js/styles/github-dark.css';
 	import { applying } from '$lib/applyImageLockStore';
 	import icon from '$lib/favicon.svg';
 	import { onDestroy } from 'svelte';
-
-	// Modals
-	import PostAnimModal from '$lib/modals/PostAnimModal.svelte'
-	import UploadPicModal from '$lib/modals/UploadPicModal.svelte'
-	import SettingsModal from '$lib/modals/SettingsModal.svelte';
 
 	import { env } from '$env/dynamic/public';
 
@@ -76,12 +69,9 @@
 </svelte:head>
 
 <Toaster {toaster}></Toaster>
-<PostAnimModal />
-<UploadPicModal />
-<SettingsModal />
 
 <!-- App Shell -->
-<div class="grid h-screen grid-rows-[auto_1fr_auto]">
+<div class="">
 	<header class="sticky top-0 z-10 backdrop-blur-sm p-4">
 			<!-- App Bar -->
 			<AppBar>

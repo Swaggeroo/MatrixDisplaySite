@@ -79,12 +79,12 @@
 
 		setTimeout(() => {
 			refreshStatus();
-			parent.onClose();
+			modalClose();
 		}, 1000);
 	}
 
 	// Base Classes
-	const cBase = 'card p-4 w-modal shadow-xl space-y-4';
+	const cBase = 'card bg-surface-100-900 p-4 space-y-4 shadow-xl max-w-screen-sm';
 	const cHeader = 'text-2xl font-bold';
 	const cForm = 'border border-surface-500 p-4 space-y-4 rounded-container';
 </script>
@@ -108,12 +108,12 @@
 			<label class="label">
 				<span>Brightness</span>
 				<input class="input" type="number" bind:value={settingsData.brightness} placeholder="Enter name..." />
-				<Slider name="range-slider" value={[settingsData.speed]} onValueChange={(e) => settingsData.brightness= e.value[0]} max={maxBrightness} step={brightnessStep} min={minBrightness}></Slider>
+				<Slider name="range-slider" value={[settingsData.brightness]} onValueChange={(e) => settingsData.brightness= e.value[0]} max={maxBrightness} step={brightnessStep} min={minBrightness}></Slider>
 			</label>
 		</form>
 		<footer class="modal-footer">
-			<button class="btn" onclick={modalClose}>Cancel</button>
-			<button class="btn" onclick={onFormSubmit}>Save</button>
+			<button class="btn preset-tonal" onclick={modalClose}>Cancel</button>
+			<button class="btn preset-filled" onclick={onFormSubmit}>Save</button>
 		</footer>
 	{/snippet}
 </Modal>

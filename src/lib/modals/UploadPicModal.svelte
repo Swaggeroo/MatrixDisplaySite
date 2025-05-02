@@ -51,6 +51,7 @@
 				console.log(xhr.responseText);
 				setTimeout(() => {
 					reloadIDs();
+					submitting = false;
 					modalClose();
 				}, 1000);
 			}
@@ -71,7 +72,7 @@
 	}
 
 	// Base Classes
-	const cBase = 'card p-4 w-modal shadow-xl space-y-4';
+	const cBase = 'card bg-surface-100-900 p-4 space-y-4 shadow-xl max-w-screen-sm';
 	const cHeader = 'text-2xl font-bold';
 	const cForm = 'border border-surface-500 p-4 space-y-4 rounded-container';
 </script>
@@ -101,11 +102,11 @@
 		</form>
 		<!-- prettier-ignore -->
 		<footer class="modal-footer">
-			<button class="btn" onclick={modalClose}>Cancel</button>
+			<button class="btn preset-tonal" onclick={modalClose}>Cancel</button>
 			{#if submitting}
-				<button class="btn" disabled><ProgressRing value={null} size="w-5 h-5" /></button>
+				<button class="btn preset-filled w-30 h-8" disabled><ProgressRing value={null} size="size-5" /></button>
 			{:else}
-				<button class="btn" onclick={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
+				<button class="btn preset-filled w-30 h-8" onclick={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
 			{/if}
 		</footer>
 	{/snippet}

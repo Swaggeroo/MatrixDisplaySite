@@ -1,25 +1,9 @@
 @import 'tailwindcss';
 
-@import "@skeletonlabs/skeleton";
-
-@import "@skeletonlabs/skeleton/optional/presets";
-
-@import "@skeletonlabs/skeleton/themes/cerberus";
-
 @import '@skeletonlabs/skeleton';
 @import '@skeletonlabs/skeleton/optional/presets';
 @import '@skeletonlabs/skeleton/themes/nouveau';
 
+@source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
+
 @plugin '@tailwindcss/forms';
-
-html,
-body {
-	@apply h-full overflow-hidden;
-}
-
-/* gold-nouveau theme */
-@font-face {
-	font-family: 'Quicksand';
-	src: url('/fonts/Quicksand.ttf');
-	font-display: swap;
-}

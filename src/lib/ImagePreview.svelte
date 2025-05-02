@@ -78,8 +78,8 @@
 </style>
 
 {#if isLoaded}
-	<div class="card card-hover p-1 h-auto max-w-full m-4">
-		<header class="card-header flex justify-between">
+	<div class="card card-hover p-3 h-auto max-w-full m-4 bg-gray-900 flex flex-col items-center justify-center">
+		<header class="card-header flex justify-between w-full">
 			<h2 class="text-xl font-bold self-center">
 				{imageName}
 			</h2>
