@@ -75,18 +75,18 @@
 	<header class="sticky top-0 z-10 backdrop-blur-sm p-4">
 			<!-- App Bar -->
 			<AppBar>
-				{#snippet lead()}
+				<AppBar.Toolbar class="grid-cols-[auto_1fr_auto] md:grid-cols-[auto_auto]">
+					<AppBar.Lead>
 
 						<img src={icon} alt="Matrix Display Site" class="w-10 h-10 mr-3" />
 						<strong class="text-xl uppercase">Matrix Display Site</strong>
 
-					{/snippet}
-				{#snippet trail()}
-
+					</AppBar.Lead>
+					<AppBar.Trail>
 						<button class="btn-icon preset-filled-surface-500 w-10 h-10 text-3xl" onclick={handleSettingsClick}>⚙</button>
 						<button class="btn-icon preset-filled-surface-500 w-10 h-10 text-xl" onclick={handlePowerClick}>🌙</button>
-
-					{/snippet}
+					</AppBar.Trail>
+				</AppBar.Toolbar>
 			</AppBar>
 	</header>
 	<!-- Page Route Content -->
