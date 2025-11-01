@@ -2,7 +2,7 @@
 	import { preventDefault } from 'svelte/legacy';
 
 	import { onDestroy, onMount } from 'svelte';
-	import { env } from '$env/dynamic/public'
+	import { env } from '$env/dynamic/public';
 
 	// Stores
 	import { Progress, Dialog, Portal } from '@skeletonlabs/skeleton-svelte';
@@ -32,7 +32,7 @@
 
 	// Form Data
 	const formData = $state({
-		title: Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000,
+		title: Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000
 	});
 
 	let submitting = $state(false);
@@ -63,12 +63,11 @@
 			toaster.create({
 				title: 'Failed to upload picture.',
 				type: 'error',
-				duration: 5000,
+				duration: 5000
 			});
 		};
 		xhr.open('POST', `${apiURL}/api/upload`, true);
 		xhr.send(formData);
-
 	}
 
 	// Base Classes
@@ -79,10 +78,7 @@
 
 <!-- @component This example creates a simple form modal. -->
 
-<Dialog
-	open={openState}
-	onOpenChange={(e) => (openState = e.open)}
->
+<Dialog open={openState} onOpenChange={(e) => (openState = e.open)}>
 	<Portal>
 		<Dialog.Positioner class="fixed inset-0 z-50 flex justify-center items-center p-4">
 			<Dialog.Content class="modal-example-form {cBase}">
@@ -94,7 +90,13 @@
 				<form class="modal-form {cForm}" id="uploadPicForm" onsubmit={preventDefault(onFormSubmit)}>
 					<label class="label">
 						<span>Title</span>
-						<input class="input" type="text" bind:value={formData.title} placeholder="Enter name..." name="title" />
+						<input
+							class="input"
+							type="text"
+							bind:value={formData.title}
+							placeholder="Enter name..."
+							name="title"
+						/>
 					</label>
 					<label class="label">
 						<span>PNG or GIF</span>
