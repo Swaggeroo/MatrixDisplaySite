@@ -116,12 +116,13 @@
 {:else}
 	<div class="card card-hover p-1 h-auto max-w-full m-4">
 		<header class="card-header flex justify-between">
-			<h2 class="text-xl font-bold self-center placeholder animate-pulse w-52 h-7">
+			<h2 class="text-xl font-bold self-center placeholder animate-pulse w-52 h-7" aria-label="Loading...">
 
 			</h2>
 			<button
 				type="button"
 				class="placeholder btn-icon w-10 h-10 animate-pulse rounded-full"
+				aria-label="Loading..."
 			>
 			</button>
 		</header>
@@ -132,6 +133,7 @@
 			<button
 				type="button"
 				class="placeholder animate-pulse btn p-2 rounded-lg w-72 h-10"
+				aria-label="Loading..."
 				disabled
 			></button>
 		</footer>
