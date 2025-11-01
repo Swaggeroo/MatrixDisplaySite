@@ -26,14 +26,14 @@ jobs:
         run: |
           VERSION=${{ env.VERSION }}
           VERSION_PART=$(echo $VERSION | tr -d '[:space:]' | awk -F. '{print NF}')
-          
+
            if [[ $VERSION_PART -eq 3 ]]; then
             IFS='.' read -r -a VERSION_PARTS <<< "$VERSION"
             PATCH=${VERSION_PARTS[2]}
             PATCH=$((PATCH + 1))
             NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH"
           fi
-          
+
           echo "New version: $NEW_VERSION"
           echo $NEW_VERSION > version.txt
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV

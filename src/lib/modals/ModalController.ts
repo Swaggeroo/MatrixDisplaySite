@@ -6,7 +6,10 @@ export const PostAnimModal = writable<{
 } | null>(null);
 
 export const SettingsModal = writable<{
-	modalOpen: (settingsData: { speed: number, brightness: number }, refreshStatus: () => void) => void;
+	modalOpen: (
+		settingsData: { speed: number; brightness: number },
+		refreshStatus: () => void
+	) => void;
 	modalClose: () => void;
 } | null>(null);
 

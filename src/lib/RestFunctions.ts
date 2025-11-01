@@ -18,12 +18,12 @@ export function applyImage(imageId: string) {
 		return;
 	}
 	applying.set(true);
-	PostAnimModal.subscribe(controller => {
+	PostAnimModal.subscribe((controller) => {
 		if (controller) controller.modalOpen();
 	})();
 	const xhr = new XMLHttpRequest();
 	let lastPos = 0;
-	xhr.onreadystatechange = function() {
+	xhr.onreadystatechange = function () {
 		if (xhr.readyState === 3) {
 			const data = xhr.responseText.substring(lastPos);
 			lastPos = xhr.responseText.length;
@@ -31,13 +31,13 @@ export function applyImage(imageId: string) {
 				applying.set(false);
 				value.set(0);
 				max.set(1);
-				PostAnimModal.subscribe(controller => {
+				PostAnimModal.subscribe((controller) => {
 					if (controller) controller.modalClose();
 				})();
 				toaster.create({
 					type: 'error',
 					title: 'Error sending data to matrix.',
-					duration: 5000,
+					duration: 5000
 				});
 			}
 			const progressRecived = data.split(' of ');
@@ -48,7 +48,7 @@ export function applyImage(imageId: string) {
 				applying.set(false);
 				value.set(0);
 				max.set(1);
-				PostAnimModal.subscribe(controller => {
+				PostAnimModal.subscribe((controller) => {
 					if (controller) controller.modalClose();
 				})();
 			}
