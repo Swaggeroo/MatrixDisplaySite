@@ -5,7 +5,7 @@
 	import { env } from '$env/dynamic/public'
 
 	// Stores
-	import { ProgressRing, Modal } from '@skeletonlabs/skeleton-svelte';
+	import { Progress, Dialog } from '@skeletonlabs/skeleton-svelte';
 	import { toaster } from '$lib/toaster-svelte';
 	import { UploadPicModal } from '$lib/modals/ModalController';
 
@@ -79,7 +79,7 @@
 
 <!-- @component This example creates a simple form modal. -->
 
-<Modal
+<Dialog
 	open={openState}
 	onOpenChange={(e) => (openState = e.open)}
 	contentBase="modal-example-form {cBase}"
@@ -104,10 +104,10 @@
 		<footer class="modal-footer">
 			<button class="btn preset-tonal" onclick={modalClose}>Cancel</button>
 			{#if submitting}
-				<button class="btn preset-filled w-30 h-8" disabled><ProgressRing value={null} size="size-5" /></button>
+				<button class="btn preset-filled w-30 h-8" disabled><Progress value={null} size="size-5" /></button>
 			{:else}
 				<button class="btn preset-filled w-30 h-8" onclick={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
 			{/if}
 		</footer>
 	{/snippet}
-</Modal>
+</Dialog>

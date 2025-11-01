@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	// Stores
-	import { Modal, Slider } from '@skeletonlabs/skeleton-svelte';
+	import { Dialog, Slider } from '@skeletonlabs/skeleton-svelte';
 
 	import { env } from '$env/dynamic/public';
 	import { SettingsModal } from '$lib/modals/ModalController';
@@ -89,7 +89,7 @@
 	const cForm = 'border border-surface-500 p-4 space-y-4 rounded-container';
 </script>
 
-<Modal
+<Dialog
 	open={openState}
 	onOpenChange={(e) => (openState = e.open)}
 	contentBase="modal-example-form {cBase}"
@@ -116,4 +116,4 @@
 			<button class="btn preset-filled" onclick={onFormSubmit}>Save</button>
 		</footer>
 	{/snippet}
-</Modal>
+</Dialog>

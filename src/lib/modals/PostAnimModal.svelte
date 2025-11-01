@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Modal, ProgressRing } from '@skeletonlabs/skeleton-svelte';
+	import { Dialog, Progress } from '@skeletonlabs/skeleton-svelte';
 	import { value, max} from '$lib/modals/PostProgressStore';
 	import { PostAnimModal } from '$lib/modals/ModalController';
 	import { onDestroy, onMount } from 'svelte';
@@ -42,7 +42,7 @@
 </script>
 
 <!-- @component This example creates an embedded video modal. -->
-<Modal
+<Dialog
 	open={openState}
 	onOpenChange={(e) => (openState = e.open)}
 	contentBase="{cBase} bg-surface-800"
@@ -50,6 +50,6 @@
 	{#snippet content()}
 		<h2 class="text-2xl font-bold">Applying Frames</h2>
 		<p class="text-sm">Applying frame {progress.value} of {progress.max}</p>
-		<ProgressRing size="size-40" value={percentage} strokeLinecap="round" meterStroke="stroke-primary-500" trackStroke="stroke-primary-500/30" showLabel />
+		<Progress size="size-40" value={percentage} strokeLinecap="round" meterStroke="stroke-primary-500" trackStroke="stroke-primary-500/30" showLabel />
 	{/snippet}
-</Modal>
+</Dialog>

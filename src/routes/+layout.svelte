@@ -2,7 +2,7 @@
 	import '../app.css';
 	import {
 		AppBar,
-		Toaster,
+		Toast,
 	} from '@skeletonlabs/skeleton-svelte';
 	import { toaster } from '$lib/toaster-svelte';
 	import { SettingsModal as SettingsModalController } from '$lib/modals/ModalController';
@@ -68,7 +68,7 @@
 	<title>Matrix Display</title>
 </svelte:head>
 
-<Toaster {toaster}></Toaster>
+<Toast.Group {toaster}></Toast.Group>
 
 <!-- App Shell -->
 <div class="">
@@ -76,16 +76,16 @@
 			<!-- App Bar -->
 			<AppBar>
 				{#snippet lead()}
-					
+
 						<img src={icon} alt="Matrix Display Site" class="w-10 h-10 mr-3" />
 						<strong class="text-xl uppercase">Matrix Display Site</strong>
-					
+
 					{/snippet}
 				{#snippet trail()}
-					
+
 						<button class="btn-icon preset-filled-surface-500 w-10 h-10 text-3xl" onclick={handleSettingsClick}>⚙</button>
 						<button class="btn-icon preset-filled-surface-500 w-10 h-10 text-xl" onclick={handlePowerClick}>🌙</button>
-					
+
 					{/snippet}
 			</AppBar>
 	</header>
