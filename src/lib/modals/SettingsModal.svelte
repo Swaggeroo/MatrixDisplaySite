@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	// Stores
-	import { Dialog, Slider } from '@skeletonlabs/skeleton-svelte';
+	import { Dialog, Slider, Portal } from '@skeletonlabs/skeleton-svelte';
 
 	import { env } from '$env/dynamic/public';
 	import { SettingsModal } from '$lib/modals/ModalController';
@@ -92,28 +92,31 @@
 <Dialog
 	open={openState}
 	onOpenChange={(e) => (openState = e.open)}
-	contentBase="modal-example-form {cBase}"
 >
-	{#snippet content()}
-		<header class={cHeader}>Settings</header>
-		<article>
-			<p>Change the speed and brightness of the Matrix.</p>
-		</article>
-		<form class="modal-form {cForm}">
-			<label class="label">
-				<span>Speed</span>
-				<input class="input" type="number" bind:value={settingsData.speed} placeholder="Enter name..." />
-				<Slider name="range-slider" value={[settingsData.speed]} onValueChange={(e) => settingsData.speed = e.value[0]} max={maxSpeed} step={speedStep} min={minSpeed}></Slider>
-			</label>
-			<label class="label">
-				<span>Brightness</span>
-				<input class="input" type="number" bind:value={settingsData.brightness} placeholder="Enter name..." />
-				<Slider name="range-slider" value={[settingsData.brightness]} onValueChange={(e) => settingsData.brightness= e.value[0]} max={maxBrightness} step={brightnessStep} min={minBrightness}></Slider>
-			</label>
-		</form>
-		<footer class="modal-footer">
-			<button class="btn preset-tonal" onclick={modalClose}>Cancel</button>
-			<button class="btn preset-filled" onclick={onFormSubmit}>Save</button>
-		</footer>
-	{/snippet}
+	<Portal>
+		<Dialog.Positioner class="fixed inset-0 z-50 flex justify-center items-center p-4">
+			<Dialog.Content class="modal-example-form {cBase}">
+				<header class={cHeader}>Settings</header>
+				<article>
+					<p>Change the speed and brightness of the Matrix.</p>
+				</article>
+				<form class="modal-form {cForm}">
+					<label class="label">
+						<span>Speed</span>
+						<input class="input" type="number" bind:value={settingsData.speed} placeholder="Enter name..." />
+						<Slider name="range-slider" value={[settingsData.speed]} onValueChange={(e) => settingsData.speed = e.value[0]} max={maxSpeed} step={speedStep} min={minSpeed}></Slider>
+					</label>
+					<label class="label">
+						<span>Brightness</span>
+						<input class="input" type="number" bind:value={settingsData.brightness} placeholder="Enter name..." />
+						<Slider name="range-slider" value={[settingsData.brightness]} onValueChange={(e) => settingsData.brightness= e.value[0]} max={maxBrightness} step={brightnessStep} min={minBrightness}></Slider>
+					</label>
+				</form>
+				<footer class="modal-footer">
+					<button class="btn preset-tonal" onclick={modalClose}>Cancel</button>
+					<button class="btn preset-filled" onclick={onFormSubmit}>Save</button>
+				</footer>
+			</Dialog.Content>
+		</Dialog.Positioner>
+	</Portal>
 </Dialog>

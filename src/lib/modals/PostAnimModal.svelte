@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Dialog, Progress } from '@skeletonlabs/skeleton-svelte';
+	import { Dialog, Progress, Portal } from '@skeletonlabs/skeleton-svelte';
 	import { value, max} from '$lib/modals/PostProgressStore';
 	import { PostAnimModal } from '$lib/modals/ModalController';
 	import { onDestroy, onMount } from 'svelte';
@@ -45,11 +45,20 @@
 <Dialog
 	open={openState}
 	onOpenChange={(e) => (openState = e.open)}
-	contentBase="{cBase} bg-surface-800"
 >
-	{#snippet content()}
-		<h2 class="text-2xl font-bold">Applying Frames</h2>
-		<p class="text-sm">Applying frame {progress.value} of {progress.max}</p>
-		<Progress size="size-40" value={percentage} strokeLinecap="round" meterStroke="stroke-primary-500" trackStroke="stroke-primary-500/30" showLabel />
-	{/snippet}
+	<Portal>
+		<Dialog.Positioner class="fixed inset-0 z-50 flex justify-center items-center p-4">
+			<Dialog.Content class="{cBase} bg-surface-800">
+				<h2 class="text-2xl font-bold">Applying Frames</h2>
+				<p class="text-sm">Applying frame {progress.value} of {progress.max}</p>
+				<Progress class="size-40 w-fit" value={percentage}>
+					<Progress.Circle>
+						<Progress.CircleTrack class="stroke-primary-500/30"/>
+						<Progress.CircleRange class="stroke-primary-500"/>
+					</Progress.Circle>
+					<Progress.ValueText />
+				</Progress>
+			</Dialog.Content>
+		</Dialog.Positioner>
+	</Portal>
 </Dialog>

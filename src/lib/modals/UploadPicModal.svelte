@@ -5,7 +5,7 @@
 	import { env } from '$env/dynamic/public'
 
 	// Stores
-	import { Progress, Dialog } from '@skeletonlabs/skeleton-svelte';
+	import { Progress, Dialog, Portal } from '@skeletonlabs/skeleton-svelte';
 	import { toaster } from '$lib/toaster-svelte';
 	import { UploadPicModal } from '$lib/modals/ModalController';
 
@@ -82,32 +82,35 @@
 <Dialog
 	open={openState}
 	onOpenChange={(e) => (openState = e.open)}
-	contentBase="modal-example-form {cBase}"
 >
-	{#snippet content()}
-		<header class={cHeader}>Upload Picture</header>
-		<article>
-			<p>Upload a picture to the server.</p>
-		</article>
-		<!-- Enable for debugging: -->
-		<form class="modal-form {cForm}" id="uploadPicForm" onsubmit={preventDefault(onFormSubmit)}>
-			<label class="label">
-				<span>Title</span>
-				<input class="input" type="text" bind:value={formData.title} placeholder="Enter name..." name="title" />
-			</label>
-			<label class="label">
-				<span>PNG or GIF</span>
-				<input class="input" type="file" accept="image/png, image/gif" name="pictures" />
-			</label>
-		</form>
-		<!-- prettier-ignore -->
-		<footer class="modal-footer">
-			<button class="btn preset-tonal" onclick={modalClose}>Cancel</button>
-			{#if submitting}
-				<button class="btn preset-filled w-30 h-8" disabled><Progress value={null} size="size-5" /></button>
-			{:else}
-				<button class="btn preset-filled w-30 h-8" onclick={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
-			{/if}
-		</footer>
-	{/snippet}
+	<Portal>
+		<Dialog.Positioner class="fixed inset-0 z-50 flex justify-center items-center p-4">
+			<Dialog.Content class="modal-example-form {cBase}">
+				<header class={cHeader}>Upload Picture</header>
+				<article>
+					<p>Upload a picture to the server.</p>
+				</article>
+				<!-- Enable for debugging: -->
+				<form class="modal-form {cForm}" id="uploadPicForm" onsubmit={preventDefault(onFormSubmit)}>
+					<label class="label">
+						<span>Title</span>
+						<input class="input" type="text" bind:value={formData.title} placeholder="Enter name..." name="title" />
+					</label>
+					<label class="label">
+						<span>PNG or GIF</span>
+						<input class="input" type="file" accept="image/png, image/gif" name="pictures" />
+					</label>
+				</form>
+				<!-- prettier-ignore -->
+				<footer class="modal-footer">
+					<button class="btn preset-tonal" onclick={modalClose}>Cancel</button>
+					{#if submitting}
+						<button class="btn preset-filled w-30 h-8" disabled><Progress value={null} class="size-5" /></button>
+					{:else}
+						<button class="btn preset-filled w-30 h-8" onclick={onFormSubmit} type="submit" form="uploadPicForm">Submit Form</button>
+					{/if}
+				</footer>
+			</Dialog.Content>
+		</Dialog.Positioner>
+	</Portal>
 </Dialog>
