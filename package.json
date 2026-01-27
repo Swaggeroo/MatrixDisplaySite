@@ -38,7 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@floating-ui/dom": "1.7.4",
+		"@floating-ui/dom": "1.7.5",
 		"highlight.js": "11.11.1"
 	}
 }
