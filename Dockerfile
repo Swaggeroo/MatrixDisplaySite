@@ -1,4 +1,4 @@
-FROM node:24.13.0 AS build
+FROM node:24.13.1 AS build
 LABEL authors="swaggeroo"
 
 WORKDIR /usr/src/app
@@ -12,7 +12,7 @@ RUN npx svelte-kit sync
 RUN npm run build
 
 
-FROM node:24.13.0
+FROM node:24.13.1
 WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/package*.json ./
 COPY --from=build /usr/src/app/build ./build
