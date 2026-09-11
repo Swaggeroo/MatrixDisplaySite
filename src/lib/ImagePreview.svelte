@@ -71,7 +71,7 @@
 
 {#if isLoaded}
 	<div
-		class="card card-hover p-3 h-auto max-w-full m-4 bg-gray-900 flex flex-col items-center justify-center"
+		class="card p-3 h-auto max-w-full m-4 bg-gray-900 flex flex-col items-center justify-center"
 	>
 		<header class="card-header flex justify-between w-full">
 			<h2 class="text-xl font-bold self-center">
@@ -107,7 +107,7 @@
 		</footer>
 	</div>
 {:else}
-	<div class="card card-hover p-1 h-auto max-w-full m-4">
+	<div class="card p-1 h-auto max-w-full m-4">
 		<header class="card-header flex justify-between">
 			<h2
 				class="text-xl font-bold self-center placeholder animate-pulse w-52 h-7"
