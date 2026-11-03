@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { toaster } from '$lib/toaster-svelte';
-	import { applyImage } from '$lib/RestFunctions';
-	import { env } from '$env/dynamic/public';
+	import { toaster } from '#lib/toaster-svelte.ts';
+	import { applyImage } from '#lib/RestFunctions.ts';
+	import { PUBLIC_API_URL as apiURL } from '$app/env/public';
 
 	// Props
-
-	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	interface Props {
 		/** Exposes parent props to this component. */

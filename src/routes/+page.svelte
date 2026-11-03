@@ -1,18 +1,17 @@
 <script lang="ts">
-	import ImagePreview from '$lib/ImagePreview.svelte';
+	import ImagePreview from '#lib/ImagePreview.svelte';
 	import { onMount } from 'svelte';
-	import { toaster } from '$lib/toaster-svelte';
-	import { applyImage } from '$lib/RestFunctions';
-	import { env } from '$env/dynamic/public';
-	import { UploadPicModal as UploadPicModalController } from '$lib/modals/ModalController';
+	import { toaster } from '#lib/toaster-svelte.ts';
+	import { applyImage } from '#lib/RestFunctions.ts';
+	import { PUBLIC_API_URL as apiURL } from '$app/env/public';
+	import { UploadPicModal as UploadPicModalController } from '#lib/modals/ModalController.ts';
 
 	// Modals
-	import PostAnimModal from '$lib/modals/PostAnimModal.svelte';
-	import UploadPicModal from '$lib/modals/UploadPicModal.svelte';
-	import SettingsModal from '$lib/modals/SettingsModal.svelte';
+	import PostAnimModal from '#lib/modals/PostAnimModal.svelte';
+	import UploadPicModal from '#lib/modals/UploadPicModal.svelte';
+	import SettingsModal from '#lib/modals/SettingsModal.svelte';
 
 	let imageIds: string[] = $state([]);
-	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	async function loadImageIDs() {
 		try {

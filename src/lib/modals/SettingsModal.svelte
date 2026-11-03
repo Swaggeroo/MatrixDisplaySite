@@ -4,8 +4,8 @@
 	// Stores
 	import { Dialog, Slider, Portal } from '@skeletonlabs/skeleton-svelte';
 
-	import { env } from '$env/dynamic/public';
-	import { SettingsModal } from '$lib/modals/ModalController';
+	import { PUBLIC_API_URL as apiURL } from '$app/env/public';
+	import { SettingsModal } from '#lib/modals/ModalController.ts';
 
 	let openState = $state(false);
 
@@ -32,8 +32,6 @@
 	onDestroy(() => {
 		SettingsModal.set(null);
 	});
-
-	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	// Form Data
 	let settingsData = $state({

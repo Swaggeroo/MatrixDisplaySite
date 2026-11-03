@@ -2,14 +2,12 @@
 	import { preventDefault } from 'svelte/legacy';
 
 	import { onDestroy, onMount } from 'svelte';
-	import { env } from '$env/dynamic/public';
+	import { PUBLIC_API_URL as apiURL } from '$app/env/public';
 
 	// Stores
 	import { Progress, Dialog, Portal } from '@skeletonlabs/skeleton-svelte';
-	import { toaster } from '$lib/toaster-svelte';
-	import { UploadPicModal } from '$lib/modals/ModalController';
-
-	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
+	import { toaster } from '#lib/toaster-svelte.ts';
+	import { UploadPicModal } from '#lib/modals/ModalController.ts';
 
 	let openState = $state(false);
 

@@ -1,17 +1,16 @@
 <script lang="ts">
 	import '../app.css';
 	import { AppBar, Toast } from '@skeletonlabs/skeleton-svelte';
-	import { toaster } from '$lib/toaster-svelte';
-	import { SettingsModal as SettingsModalController } from '$lib/modals/ModalController';
+	import { toaster } from '#lib/toaster-svelte.ts';
+	import { SettingsModal as SettingsModalController } from '#lib/modals/ModalController.ts';
 
-	import { applying } from '$lib/applyImageLockStore';
-	import icon from '$lib/favicon.svg';
+	import { applying } from '#lib/applyImageLockStore.ts';
+	import icon from '#lib/favicon.svg';
 	import { onDestroy } from 'svelte';
 
-	import { env } from '$env/dynamic/public';
+	import { PUBLIC_API_URL as apiURL } from '$app/env/public';
 
 	let { children } = $props();
-	let apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 	function getStatus() {
 		fetch(`${apiURL}/api/status`)

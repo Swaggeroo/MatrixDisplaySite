@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Dialog, Progress, Portal } from '@skeletonlabs/skeleton-svelte';
-	import { value, max } from '$lib/modals/PostProgressStore';
-	import { PostAnimModal } from '$lib/modals/ModalController';
+	import { value, max } from '#lib/modals/PostProgressStore.ts';
+	import { PostAnimModal } from '#lib/modals/ModalController.ts';
 	import { onDestroy, onMount } from 'svelte';
 
 	let progress = $state({

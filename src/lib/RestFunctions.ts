@@ -1,12 +1,10 @@
-import { max, value } from '$lib/modals/PostProgressStore';
-import { toaster } from '$lib/toaster-svelte';
-import { applying } from '$lib/applyImageLockStore';
-import { env } from '$env/dynamic/public';
-import { PostAnimModal } from '$lib/modals/ModalController';
+import { max, value } from '#lib/modals/PostProgressStore.ts';
+import { toaster } from '#lib/toaster-svelte.ts';
+import { applying } from '#lib/applyImageLockStore.ts';
+import { PUBLIC_API_URL as apiURL } from '$app/env/public';
+import { PostAnimModal } from '#lib/modals/ModalController.ts';
 
 let currentlyApplying = false;
-
-const apiURL: string = env.PUBLIC_API_URL ?? 'http://localhost:3000';
 
 applying.subscribe((value) => {
 	currentlyApplying = value;
